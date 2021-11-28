@@ -2,7 +2,7 @@ class RoomDtobase {
   name: string = "";
 }
 export class RoomOutboundDto extends RoomDtobase {
-  id: number;
+  id: number = -1;
 
   constructor(init: RoomOutboundDto) {
     super();
