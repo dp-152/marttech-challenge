@@ -64,6 +64,7 @@
         "ignoreComments": true,
         "ignorePattern": "goog.(module|require)"
       }
-    ]
+    ],
+    "@typescript-eslint/no-inferrable-types": 0
   }
 }
