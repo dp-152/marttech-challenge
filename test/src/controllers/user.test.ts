@@ -36,3 +36,8 @@ test("Finds a created user", async () => {
 test("Returns an error for an invalid user ID", async () => {
   await expect(subject.userById(5597)).rejects.toThrow();
 });
+
+test("Returns an error for invalid/incomplete user data", async () => {
+  const badUser = {} as UserInboundDto;
+  await expect(subject.newUser(badUser)).rejects.toThrow();
+});
