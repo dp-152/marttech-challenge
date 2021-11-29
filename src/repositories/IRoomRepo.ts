@@ -4,6 +4,7 @@ import Message from "../data/message";
 interface IRoomRepo {
   create: (room: Room) => Room;
   rename: (id: number, newName: string) => Room | null;
+  getAll: () => Room[];
   getMessages: (id: number) => Message[] | null;
   pushMessage: (message: Message) => Message | null;
 }

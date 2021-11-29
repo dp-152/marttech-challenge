@@ -22,6 +22,10 @@ class MemoryRoomRepo implements IRoomRepo {
     return existingRoom;
   }
 
+  getAll(): Room[] {
+    return [...this.rooms];
+  }
+
   getMessages(id: number): Message[] | null {
     const existingRoom = this.rooms.find(el => el.id === id);
     if (!existingRoom) {
