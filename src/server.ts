@@ -1,12 +1,14 @@
 import http from "http";
 
 import userEndpoints from "./endpoints/user";
+import roomEndpoints from "./endpoints/room";
 
 const PORT = process.env.PORT || 5000;
 
 /* eslint-disable brace-style */
 const server = http.createServer(async (req, res) => {
-  await userEndpoints(req, res);
+  if (!res.writableFinished) await userEndpoints(req, res);
+  if (!res.writableFinished) await roomEndpoints(req, res);
 
   // CATCH-ALL
   if (!res.writableFinished) {
