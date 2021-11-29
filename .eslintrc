@@ -65,6 +65,7 @@
         "ignorePattern": "goog.(module|require)"
       }
     ],
-    "@typescript-eslint/no-inferrable-types": 0
+    "@typescript-eslint/no-inferrable-types": 0,
+    "@typescript-eslint/no-non-null-assertion": 0
   }
 }
