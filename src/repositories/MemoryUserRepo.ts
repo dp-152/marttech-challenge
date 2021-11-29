@@ -19,6 +19,15 @@ class MemoryUserRepo implements IUserRepo {
 
     return existingUser;
   }
+
+  getByUsername(username: string): User | null {
+    const existingUser = this.users.find(el => el.username === username);
+    if (!existingUser) {
+      return null;
+    }
+
+    return existingUser;
+  }
 }
 
 export default MemoryUserRepo;
