@@ -5,7 +5,7 @@ class Room {
   name: string = "";
   messages: Message[] = [] as Message[];
 
-  constructor(init: Room) {
+  constructor(init: Partial<Room>) {
     Object.assign(this, init);
   }
 }

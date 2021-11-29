@@ -4,7 +4,7 @@ class User {
   username: string = "";
   password: string = "";
 
-  constructor(init: User) {
+  constructor(init: Partial<User>) {
     Object.assign(this, init);
   }
 }

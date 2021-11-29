@@ -10,7 +10,7 @@ class Message {
   timestamp: Date = {} as Date;
   body: string = "";
 
-  constructor(init: Message) {
+  constructor(init: Partial<Message>) {
     Object.assign(this, init);
   }
 }
