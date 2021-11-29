@@ -8,7 +8,7 @@ import MemoryRoomRepo from "./repositories/MemoryRoomRepo";
 
 import userEndpoints from "./endpoints/user";
 import roomEndpoints from "./endpoints/room";
-import socketHandler from "./endpoints/socket";
+import SocketHandler from "./endpoints/socket";
 
 const PORT = process.env.PORT || 5000;
 
@@ -31,7 +31,8 @@ const server = http.createServer(async (req, res) => {
 });
 
 const io = new SocketIoServer(server);
-io.on("connection", socketHandler);
+const socketHandler = new SocketHandler(userRepo, roomRepo);
+io.on("connection", socketHandler.handler);
 
 server.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);
