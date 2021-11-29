@@ -15,11 +15,11 @@ export default async function userEndpoints(
   // GET /api/user/{id}
   if (
     req.url &&
-    req.url.match(/^\/api\/user\/[0-9]+/) &&
+    req.url.match(/^\/api\/user\/[0-9]+$/) &&
     req.method === "GET"
   ) {
     try {
-      const id = +req.url.match(/\/([0-9]+)/)![1];
+      const id = +req.url.match(/\/([0-9]+)$/)![1];
       const user = await userController.userById(id);
 
       res.writeHead(200, { "Content-Type": "application/json" });

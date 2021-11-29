@@ -23,7 +23,7 @@ export default async function roomEndpoints(
   // GET /api/room/{id}
   else if (
     req.url &&
-    req.url.match(/\/api\/room\/[0-9]+/) &&
+    req.url.match(/^\/api\/room\/[0-9]+$/) &&
     req.method === "GET"
   ) {
     try {
@@ -60,7 +60,7 @@ export default async function roomEndpoints(
   // PUT /api/room/rename/{id}
   else if (
     req.url &&
-    req.url.match(/\/api\/room\/rename\/[0-9]+/) &&
+    req.url.match(/^\/api\/room\/rename\/[0-9]+$/) &&
     req.method === "PUT"
   ) {
     const roomID = +req.url.match(/\/([0-9]+)$/)![1];
