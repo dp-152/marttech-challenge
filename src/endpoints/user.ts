@@ -1,17 +1,16 @@
 import { getRequestBody } from "../util/request-utils";
 
-import * as userController from "../controllers/user";
-import MemoryUserRepo from "../repositories/MemoryUserRepo";
+
 import { UserInboundDto, UserOutboundDto } from "../dtos/user";
 import { IncomingMessage, ServerResponse } from "http";
-
-userController.init(new MemoryUserRepo());
+import UserController from "../controllers/user";
 
 /* eslint-disable brace-style */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export default async function userEndpoints(
   req: IncomingMessage,
   res: ServerResponse,
+  controller: UserController,
 ) {
   // GET /api/user/{id}
   if (
@@ -21,7 +20,7 @@ export default async function userEndpoints(
   ) {
     try {
       const id = +req.url.match(/\/([0-9]+)$/)![1];
-      const user = await userController.userById(id);
+      const user = await controller.userById(id);
 
       res.writeHead(200, { "Content-Type": "application/json" });
       res.end(JSON.stringify(user));
@@ -39,7 +38,7 @@ export default async function userEndpoints(
     try {
       const jsonObject = JSON.parse(reqBodyBuffer.toString());
       const newUser = new UserInboundDto({ ...jsonObject });
-      createdUser = await userController.newUser(newUser);
+      createdUser = await controller.newUser(newUser);
     } catch (err: any) {
       res.writeHead(400, { "Content-Type": "application/json" });
       res.end(JSON.stringify({ message: err.message }));

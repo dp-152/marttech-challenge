@@ -1,21 +1,19 @@
 import { getRequestBody } from "../util/request-utils";
 
-import * as roomController from "../controllers/room";
-import MemoryRoomRepo from "../repositories/MemoryRoomRepo";
 import { RoomInboundDto, RoomOutboundDto } from "../dtos/room";
 import { IncomingMessage, ServerResponse } from "http";
-
-roomController.init(new MemoryRoomRepo());
+import RoomController from "../controllers/room";
 
 /* eslint-disable brace-style */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export default async function roomEndpoints(
   req: IncomingMessage,
   res: ServerResponse,
+  controller: RoomController,
 ) {
   // GET /api/rooms
   if (req.url === "/api/rooms" && req.method === "GET") {
-    const rooms = await roomController.allRooms();
+    const rooms = await controller.allRooms();
 
     res.writeHead(200, { "Content-Type": "application/json" });
     res.end(JSON.stringify(rooms));
@@ -29,7 +27,7 @@ export default async function roomEndpoints(
   ) {
     try {
       const roomID = +req.url.match(/\/([0-9]+)$/)![1];
-      const messages = await roomController.messagesInRoom(roomID);
+      const messages = await controller.messagesInRoom(roomID);
 
       res.writeHead(200, { "Content-Type": "application/json" });
       res.end(JSON.stringify(messages));
@@ -47,7 +45,7 @@ export default async function roomEndpoints(
     try {
       const jsonObject = JSON.parse(reqBodyBuffer.toString());
       const newRoom = new RoomInboundDto({ ...jsonObject });
-      createdRoom = await roomController.createRoom(newRoom);
+      createdRoom = await controller.createRoom(newRoom);
     } catch (err: any) {
       res.writeHead(400, { "Content-Type": "application/json" });
       res.end(JSON.stringify({ message: err.message }));
@@ -71,7 +69,7 @@ export default async function roomEndpoints(
     try {
       const jsonObject = JSON.parse(reqBodyBuffer.toString());
       const newName = jsonObject.name;
-      renamedRoom = await roomController.renameRoom(roomID, newName);
+      renamedRoom = await controller.renameRoom(roomID, newName);
     } catch (err: any) {
       res.writeHead(400, { "Content-Type": "application/json" });
       res.end(JSON.stringify({ message: err.message }));
