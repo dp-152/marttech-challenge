@@ -15,7 +15,7 @@ export class UserOutboundDto extends UserDtoBase {
 export class UserInboundDto extends UserDtoBase {
   password: string = "";
 
-  constructor(init: UserOutboundDto) {
+  constructor(init: UserInboundDto) {
     super();
     Object.assign(this, init);
   }
