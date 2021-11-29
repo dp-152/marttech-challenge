@@ -19,6 +19,7 @@ export function newUser(newUser: UserInboundDto): Promise<UserOutboundDto> {
       newUser.password === ""
     ) {
       rej(new Error("One or more required fields are empty"));
+      return;
     }
     const mappedUser = new User({ ...newUser, id: -1 });
     const createdUser = userRepo.create(mappedUser);
@@ -31,6 +32,7 @@ export function userById(id: number): Promise<UserOutboundDto> {
     const foundUser = userRepo.getById(id);
     if (!foundUser) {
       rej(new Error("User not found"));
+      return;
     }
 
     res(new UserOutboundDto({ ...foundUser! }));
