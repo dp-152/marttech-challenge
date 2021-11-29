@@ -16,8 +16,13 @@ export function allRooms(): Promise<RoomOutboundDto[]> {
 }
 
 export function createRoom(newRoom: RoomInboundDto): Promise<RoomOutboundDto> {
-  return new Promise(res => {
+  return new Promise((res, rej) => {
+    if (!newRoom.name || newRoom.name === "") {
+      rej(new Error("One or more required fields are empty"));
+      return;
+    }
     const mappedRoom = new Room({ ...newRoom, id: -1 });
+
     const returnedRoom = roomRepo.create(mappedRoom);
     res(returnedRoom);
   });
@@ -28,9 +33,14 @@ export function renameRoom(
   newName: string,
 ): Promise<RoomOutboundDto> {
   return new Promise((res, rej) => {
+    if (newName === "") {
+      rej(new Error("One or more required fields are empty"));
+      return;
+    }
     const returnedRoom = roomRepo.rename(id, newName);
     if (!returnedRoom) {
       rej(new Error("Room not found"));
+      return;
     }
 
     res(returnedRoom!);
@@ -42,6 +52,7 @@ export function messagesInRoom(id: number): Promise<MessageOutboundDto[]> {
     const foundMessages = roomRepo.getMessages(id);
     if (!foundMessages) {
       rej(new Error("Room not found"));
+      return;
     }
 
     res(foundMessages!.map(el => new MessageOutboundDto({ ...el })));

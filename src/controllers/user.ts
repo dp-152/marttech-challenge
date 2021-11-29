@@ -10,14 +10,17 @@ export function init(repo: IUserRepo) {
 
 export function newUser(newUser: UserInboundDto): Promise<UserOutboundDto> {
   return new Promise((res, rej) => {
-    const mappedUser = new User({ ...newUser, id: -1 });
     if (
-      mappedUser.name === "" ||
-      mappedUser.username === "" ||
-      mappedUser.password === ""
+      !newUser.name ||
+      newUser.name === "" ||
+      !newUser.username ||
+      newUser.username === "" ||
+      !newUser.password ||
+      newUser.password === ""
     ) {
       rej(new Error("One or more required fields are empty"));
     }
+    const mappedUser = new User({ ...newUser, id: -1 });
     const createdUser = userRepo.create(mappedUser);
     res(new UserOutboundDto({ ...createdUser }));
   });
