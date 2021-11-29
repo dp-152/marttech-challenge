@@ -1,22 +1,31 @@
 class MessageDtoBase {
-  roomId: number = -1;
-  senderId: number = -1;
-  body: string = "";
+  roomId: number;
+  senderId: number;
+  body: string;
+
+  constructor(init: MessageDtoBase) {
+    this.roomId = init.roomId;
+    this.senderId = init.senderId;
+    this.body = init.body;
+  }
 }
 
 export class MessageInboundDto extends MessageDtoBase {
   constructor(init: MessageInboundDto) {
-    super();
-    Object.assign(this, init);
+    super(init);
+    Object.seal(this);
   }
 }
 
 export class MessageOutboundDto extends MessageDtoBase {
-  id: number = -1;
-  timestamp: Date = {} as Date;
+  id: number;
+  timestamp: Date;
 
   constructor(init: MessageOutboundDto) {
-    super();
-    Object.assign(this, init);
+    super(init);
+    this.id = init.id;
+    this.timestamp = init.timestamp;
+
+    Object.seal(this);
   }
 }
