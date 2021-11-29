@@ -8,6 +8,7 @@ import { IncomingMessage, ServerResponse } from "http";
 userController.init(new MemoryUserRepo());
 
 /* eslint-disable brace-style */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export default async function userEndpoints(
   req: IncomingMessage,
   res: ServerResponse,

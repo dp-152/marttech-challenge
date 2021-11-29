@@ -8,6 +8,7 @@ import { IncomingMessage, ServerResponse } from "http";
 roomController.init(new MemoryRoomRepo());
 
 /* eslint-disable brace-style */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export default async function roomEndpoints(
   req: IncomingMessage,
   res: ServerResponse,
