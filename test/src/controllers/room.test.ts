@@ -1,4 +1,4 @@
-import * as subject from "../../../src/controllers/room";
+import RoomController from "../../../src/controllers/room";
 import { RoomInboundDto, RoomOutboundDto } from "../../../src/dtos/room";
 import MemoryRoomRepo from "../../../src/repositories/MemoryRoomRepo";
 
@@ -11,8 +11,10 @@ async function createRoom(): Promise<[RoomInboundDto, RoomOutboundDto]> {
   return [testRoom, returnedRoom];
 }
 
+let subject: RoomController;
+
 beforeAll(() => {
-  subject.init(new MemoryRoomRepo());
+  subject = new RoomController(new MemoryRoomRepo());
 });
 
 test("Returns no rooms", async () => {
@@ -38,4 +40,18 @@ test("Renames a room", async () => {
 test("Returns an error for invalid room ID", async () => {
   await expect(subject.messagesInRoom(2257)).rejects.toThrow();
   await expect(subject.renameRoom(2257, "crash")).rejects.toThrow();
+});
+
+test("Returns an error for empty required fields", async () => {
+  const roomWithoutName = new RoomInboundDto({ name: "" });
+  await expect(subject.createRoom(roomWithoutName)).rejects.toThrow();
+  const [, newRoom] = await createRoom();
+  await expect(subject.renameRoom(newRoom.id, "")).rejects.toThrow();
+});
+
+test("Returns no messages on an empty room", async () => {
+  const roomWithoutMessages = new RoomInboundDto({ name: "room" });
+  const [, newRoom] = await createRoom();
+  const messages = await subject.messagesInRoom(newRoom.id);
+  expect(messages).toHaveLength(0);
 });

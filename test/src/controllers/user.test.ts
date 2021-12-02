@@ -1,9 +1,11 @@
 import MemoryUserRepo from "../../../src/repositories/MemoryUserRepo";
 import { UserInboundDto, UserOutboundDto } from "../../../src/dtos/user";
-import * as subject from "../../../src/controllers/user";
+import UserController from "../../../src/controllers/user";
+
+let subject: UserController;
 
 beforeEach(() => {
-  subject.init(new MemoryUserRepo());
+  subject = new UserController(new MemoryUserRepo());
 });
 
 async function createUser(): Promise<[UserInboundDto, UserOutboundDto]> {
