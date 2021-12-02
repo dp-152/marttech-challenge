@@ -2,8 +2,6 @@ import IUserRepo from "../repositories/IUserRepo";
 import User from "../data/user";
 import { UserInboundDto, UserOutboundDto } from "../dtos/user";
 
-let userRepo: IUserRepo;
-
 export default class UserController {
   userRepo: IUserRepo;
 
